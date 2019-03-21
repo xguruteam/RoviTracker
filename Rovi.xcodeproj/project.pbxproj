@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ED38872AA9B20E622BFF692 /* Pods_Rovi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73ACABD71B57B709FA9BFE36 /* Pods_Rovi.framework */; };
 		A4F200CC2241552300CC55AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F200CB2241552300CC55AE /* AppDelegate.swift */; };
 		A4F200CE2241552300CC55AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F200CD2241552300CC55AE /* ViewController.swift */; };
 		A4F200D12241552300CC55AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F200CF2241552300CC55AE /* Main.storyboard */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3DB5580F9F56341875F3446C /* Pods-Rovi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rovi.release.xcconfig"; path = "Target Support Files/Pods-Rovi/Pods-Rovi.release.xcconfig"; sourceTree = "<group>"; };
+		73ACABD71B57B709FA9BFE36 /* Pods_Rovi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rovi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4F200C82241552300CC55AE /* Rovi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rovi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4F200CB2241552300CC55AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4F200CD2241552300CC55AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		A4F200ED2241552700CC55AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA98922322416E8D00D824B0 /* BeaconTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTableViewController.swift; sourceTree = "<group>"; };
 		CA98922422416E8D00D824B0 /* BeaconTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTracker.swift; sourceTree = "<group>"; };
+		D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rovi.debug.xcconfig"; path = "Target Support Files/Pods-Rovi/Pods-Rovi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ED38872AA9B20E622BFF692 /* Pods_Rovi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22E7B0FE5EA88AE87B996EA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73ACABD71B57B709FA9BFE36 /* Pods_Rovi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87C3A90BC37F61EC45490A1E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */,
+				3DB5580F9F56341875F3446C /* Pods-Rovi.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		A4F200BF2241552300CC55AE = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +108,8 @@
 				A4F200DF2241552700CC55AE /* RoviTests */,
 				A4F200EA2241552700CC55AE /* RoviUITests */,
 				A4F200C92241552300CC55AE /* Products */,
+				87C3A90BC37F61EC45490A1E /* Pods */,
+				22E7B0FE5EA88AE87B996EA6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,9 +179,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A4F200F02241552700CC55AE /* Build configuration list for PBXNativeTarget "Rovi" */;
 			buildPhases = (
+				157DB1642425F04D04D1FD40 /* [CP] Check Pods Manifest.lock */,
 				A4F200C42241552300CC55AE /* Sources */,
 				A4F200C52241552300CC55AE /* Frameworks */,
 				A4F200C62241552300CC55AE /* Resources */,
+				EFACFEBDD6C7760999458CE6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -277,6 +304,61 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		157DB1642425F04D04D1FD40 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Rovi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFACFEBDD6C7760999458CE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Rovi/Pods-Rovi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/CRRefresh/CRRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/MKProgress/MKProgress.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MKProgress.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rovi/Pods-Rovi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A4F200C42241552300CC55AE /* Sources */ = {
@@ -459,6 +541,7 @@
 		};
 		A4F200F12241552700CC55AE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
@@ -479,6 +562,7 @@
 		};
 		A4F200F22241552700CC55AE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DB5580F9F56341875F3446C /* Pods-Rovi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;

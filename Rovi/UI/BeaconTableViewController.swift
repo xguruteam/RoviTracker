@@ -22,23 +22,9 @@ class BeaconTableViewController: UITableViewController, BeaconTrackerDelegate {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         BeaconTracker.shared.delegate = self
-        BeaconTracker.shared.startBeaconTracking(ESTIMOTE_IOSBEACON_PROXIMITY_UUID, regionID: SAMPLE_REGION_ID)
+        BeaconTracker.shared.startBeaconTracking()
     }
 
-    func beaconTracker(_ beaconTracker: BeaconTracker, didChangeNearestBeacon nearestBeacon: CLBeacon?) {
-        if let _ = nearestBeacon {
-            Log.e(nearestBeacon!.keyString)
-            let notfication = UILocalNotification()
-            notfication.alertBody = "New Beacon Dectected"
-            notfication.alertAction = nearestBeacon!.proximityUUID.uuidString
-            notfication.soundName = UILocalNotificationDefaultSoundName
-            UIApplication.shared.presentLocalNotificationNow(notfication)
-        }
-        else {
-            Log.e("no beacon")
-        }
-    }
-    
     func beaconTracker(_ beaconTracker: BeaconTracker, updateBeacons beacons: [CLBeacon]) {
         self.beacons = beacons
         tableView.reloadData()

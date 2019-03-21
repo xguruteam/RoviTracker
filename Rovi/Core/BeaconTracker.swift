@@ -29,10 +29,8 @@ class Log {
 
 //MARK: Common UUID
 
-let ESTIMOTE_PROXIMITY_UUID: UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
-let ESTIMOTE_MACBEACON_PROXIMITY_UUID: UUID = UUID(uuidString: "08D4A950-80F0-4D42-A14B-D53E063516E6")!
-let ESTIMOTE_IOSBEACON_PROXIMITY_UUID: UUID = UUID(uuidString: "39ED98FF-2900-441A-802F-9C398FC199D2")!
-let SAMPLE_REGION_ID = "RoviRegion"
+let ESTIMOTE_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D"
+let I6_UUID = "E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"
 
 //MARK: CLBeacon Extension
 extension CLBeacon {
@@ -53,7 +51,6 @@ extension CLBeacon {
 
 //MARK: BeaconTrackerDelegate
 @objc protocol BeaconTrackerDelegate: NSObjectProtocol {
-    func beaconTracker(_ beaconTracker: BeaconTracker, didChangeNearestBeacon nearestBeacon: CLBeacon?)
     func beaconTracker(_ beaconTracker: BeaconTracker, updateBeacons beacons: [CLBeacon])
     func beaconTrackerNeedToTurnOnBluetooth(_ beaconTracker: BeaconTracker)
 }
@@ -72,7 +69,7 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     
     private var locationManager: CLLocationManager? = nil
     private var centralManager: CBCentralManager? = nil
-    private var beaconRegion: CLBeaconRegion? = nil
+    private var beaconRegions: [CLBeaconRegion] = []
     
     var isForegroundMode: Bool {
         return UIApplication.shared.applicationState == .active
@@ -86,10 +83,13 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         super.init()
         // register method that be called when the app receive UIApplicationDidEnterBackgroundNotification
         NotificationCenter.default.addObserver(self, selector: #selector(BeaconTracker.applicationEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        beaconRegions.append(CLBeaconRegion(proximityUUID: UUID(uuidString: I6_UUID)!, identifier: I6_UUID))
+        beaconRegions.append(CLBeaconRegion(proximityUUID: UUID(uuidString: ESTIMOTE_UUID)!, identifier: ESTIMOTE_UUID))
     }
     
     //MARK: Start & Stop
-    func startBeaconTracking(_ beaconProximityUUID: UUID, regionID beaconRegionID: String) {
+    func startBeaconTracking() {
         self.locationManager = CLLocationManager()
         
         self.centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
@@ -101,39 +101,45 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         
         self.locationManager?.delegate = self
         self.locationManager?.pausesLocationUpdatesAutomatically = false
-        self.beaconRegion = CLBeaconRegion(proximityUUID: beaconProximityUUID, identifier: beaconRegionID)
-        self.locationManager?.startMonitoring(for: self.beaconRegion!)
+
+        for region in beaconRegions {
+            self.locationManager?.startMonitoring(for: region)
+        }
+        
         self.locationManager?.startUpdatingLocation()
         self.startBeaconRanging()
     }
     
     func stopBeaconTracking() {
         self.stopBeaconRanging()
-        if let _ = self.beaconRegion {
-            self.locationManager?.stopMonitoring(for: self.beaconRegion!)
+        
+        for region in beaconRegions {
+            self.locationManager?.stopMonitoring(for: region)
         }
+        
         self.locationManager = nil
         self.centralManager = nil
-        self.beaconRegion = nil
     }
     
     //MARK: Ranging
     private func startBeaconRanging() {
         self.nearestBeacon = nil
-        guard let _ = self.beaconRegion else {
-            return
+        
+        for region in beaconRegions {
+            self.locationManager?.startRangingBeacons(in: region)
         }
-        self.locationManager?.startRangingBeacons(in: self.beaconRegion!)
+        
         self.locationManager?.startUpdatingLocation()
         
         self.checkTimer?.invalidate()
-        self.checkTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(BeaconTracker.checkNewButtons), userInfo: nil, repeats: true)
+        self.checkTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(BeaconTracker.checkNewBeacons), userInfo: nil, repeats: true)
     }
     
     private func stopBeaconRanging() {
-        if let _ = beaconRegion {
-            locationManager?.stopRangingBeacons(in: beaconRegion!)
+        for region in beaconRegions {
+            self.locationManager?.stopRangingBeacons(in: region)
         }
+        
         locationManager?.stopUpdatingLocation()
         
         BackgroundTaskManager.shared.endAllBackgroundTasks()
@@ -145,18 +151,17 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     }
     
     //MARK: Timer Callback
-    @objc private func checkNewButtons() {
+    @objc private func checkNewBeacons() {
         
 //        Log.d("didCheckBeacons")
         
-        if let _  = self.delegate?.responds(to: #selector(BeaconTrackerDelegate.beaconTracker(_:updateBeacons:))) {
-            self.delegate!.beaconTracker(self, updateBeacons: self.detectedBeacons)
-        }
+        self.delegate?.beaconTracker(self, updateBeacons: self.detectedBeacons)
 
         if self.isForegroundMode == false {
             let _ = BackgroundTaskManager.shared.beginNewBackgroundTask()
         }
         
+        self.detectedBeacons = []
     }
     
     //MARK: CLLocationManagerDelegate
@@ -176,82 +181,52 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        if region.isEqual(self.beaconRegion) {
-            Log.d("Entered Region")
-        }
+        Log.d("Entered Region: \(region.identifier)")
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if region.isEqual(self.beaconRegion) {
-            Log.d("Exited Region")
-        }
+        Log.d("Exited Region: \(region.identifier)")
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        Log.e("didRangeBeacons")
-        if region.isEqual(self.beaconRegion) {
+//        Log.e("didRangeBeacons: \(region.identifier)")
+        if beacons.count <= 0 {
+            return
+        }
             
-            self.detectedBeacons = beacons
-            
-            var isChanged = false
-            
-            if beacons.count == 0 {
-                if let _ = self.nearestBeacon {
-                    self.nearestBeacon = nil
-                    isChanged = true
-                }
-            }
-            else {
-                let beacon = beacons[0]
-                if beacon.proximity == .near || beacon.proximity == .immediate {
-                    if !beacon.isEqualToCLBeacon(self.nearestBeacon) {
-                        self.nearestBeacon = beacon
-                        isChanged = true
-                    }
-                }
-                else {
-                    if let _ = self.nearestBeacon {
-                        self.nearestBeacon = nil
-                        isChanged = true
-                    }
-                }
-            }
-            
-            if isChanged {
-                if let _  = self.delegate?.responds(to: #selector(BeaconTrackerDelegate.beaconTracker(_:didChangeNearestBeacon:))) {
-                    self.delegate!.beaconTracker(self, didChangeNearestBeacon: self.nearestBeacon)
-                }
+        let originals = self.detectedBeacons
+        self.detectedBeacons = []
+        self.detectedBeacons.append(contentsOf: beacons)
+        for beacon in originals {
+            if beacon.proximityUUID.uuidString != beacons[0].proximityUUID.uuidString {
+                self.detectedBeacons.append(beacon)
             }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error) {
-        Log.d("Beacon raging failed with error: \(error)")
+        Log.d("Beacon raging failed with error: \(region.identifier): \(error)")
     }
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
-        if region.identifier == self.beaconRegion?.identifier {
-            switch state {
-            case .inside:
-                Log.d("Region Inside State")
-            case .outside:
-                Log.d("Region Outside State")
-            case .unknown:
-                Log.d("Region Unknown State")
-            }
+        switch state {
+        case .inside:
+            Log.d("Region Inside State: \(region.identifier)")
+        case .outside:
+            Log.d("Region Outside State: \(region.identifier)")
+        case .unknown:
+            Log.d("Region Unknown State: \(region.identifier)")
         }
     }
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-        Log.e("Region monitoring failed with error \(error)")
+        Log.e("Region monitoring failed with error: \(error)")
     }
     
     //MARK: CBCentralManagerDelegate
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state != .poweredOn {
-            if let _  = self.delegate?.responds(to: #selector(BeaconTrackerDelegate.beaconTrackerNeedToTurnOnBluetooth(_:))) {
-                self.delegate!.beaconTrackerNeedToTurnOnBluetooth(self)
-            }
+            self.delegate?.beaconTrackerNeedToTurnOnBluetooth(self)
         }
     }
     

@@ -1,0 +1,6 @@
+framework module Pods_Rovi {
+  umbrella header "Pods-Rovi-umbrella.h"
+
+  export *
+  module * { export * }
+}
