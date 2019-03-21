@@ -17,6 +17,7 @@
 		A4F200EC2241552700CC55AE /* RoviUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F200EB2241552700CC55AE /* RoviUITests.swift */; };
 		CA98922522416E8D00D824B0 /* BeaconTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98922322416E8D00D824B0 /* BeaconTableViewController.swift */; };
 		CA98922622416E8D00D824B0 /* BeaconTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98922422416E8D00D824B0 /* BeaconTracker.swift */; };
+		CAA44A1E2243FD150050D619 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A1D2243FD150050D619 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		A4F200ED2241552700CC55AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA98922322416E8D00D824B0 /* BeaconTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTableViewController.swift; sourceTree = "<group>"; };
 		CA98922422416E8D00D824B0 /* BeaconTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTracker.swift; sourceTree = "<group>"; };
+		CAA44A1D2243FD150050D619 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rovi.debug.xcconfig"; path = "Target Support Files/Pods-Rovi/Pods-Rovi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +99,6 @@
 				D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */,
 				3DB5580F9F56341875F3446C /* Pods-Rovi.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -134,6 +135,7 @@
 				A4F200D22241552600CC55AE /* Assets.xcassets */,
 				A4F200D42241552600CC55AE /* LaunchScreen.storyboard */,
 				A4F200D72241552600CC55AE /* Info.plist */,
+				CAA44A1D2243FD150050D619 /* Utils.swift */,
 			);
 			path = Rovi;
 			sourceTree = "<group>";
@@ -365,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA44A1E2243FD150050D619 /* Utils.swift in Sources */,
 				A4F200CE2241552300CC55AE /* ViewController.swift in Sources */,
 				A4F200CC2241552300CC55AE /* AppDelegate.swift in Sources */,
 				CA98922622416E8D00D824B0 /* BeaconTracker.swift in Sources */,

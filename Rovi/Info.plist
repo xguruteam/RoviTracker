@@ -23,13 +23,13 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Turn On Bluetooth for iBeacon Monitoring</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your location is needed for iBeacon Monitoring</string>
+	<string>Must be enabled to collect location data.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is needed for iBeacon Monitoring</string>
+	<string></string>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location is needed for iBeacon Monitoring</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is needed for iBeacon Monitoring</string>
+	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

@@ -154,8 +154,10 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     @objc private func checkNewBeacons() {
         
 //        Log.d("didCheckBeacons")
-        
-        self.delegate?.beaconTracker(self, updateBeacons: self.detectedBeacons)
+        let rssiSorted = self.detectedBeacons.sorted { (first, second) -> Bool in
+            return first.rssi > second.rssi
+        }
+        self.delegate?.beaconTracker(self, updateBeacons: rssiSorted)
 
         if self.isForegroundMode == false {
             let _ = BackgroundTaskManager.shared.beginNewBackgroundTask()
