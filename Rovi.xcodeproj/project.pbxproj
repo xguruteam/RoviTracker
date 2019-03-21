@@ -18,6 +18,12 @@
 		CA98922522416E8D00D824B0 /* BeaconTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98922322416E8D00D824B0 /* BeaconTableViewController.swift */; };
 		CA98922622416E8D00D824B0 /* BeaconTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98922422416E8D00D824B0 /* BeaconTracker.swift */; };
 		CAA44A1E2243FD150050D619 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A1D2243FD150050D619 /* Utils.swift */; };
+		CAA44A21224400F00050D619 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A20224400F00050D619 /* DataController.swift */; };
+		CAA44A26224400F80050D619 /* Reading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A22224400F70050D619 /* Reading.swift */; };
+		CAA44A27224400F80050D619 /* DeviceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A23224400F80050D619 /* DeviceEvent.swift */; };
+		CAA44A28224400F80050D619 /* Gps.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A24224400F80050D619 /* Gps.swift */; };
+		CAA44A29224400F80050D619 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A25224400F80050D619 /* Metrics.swift */; };
+		CAA44A2E224416D30050D619 /* ReadingsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A2A224416D30050D619 /* ReadingsModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +62,12 @@
 		CA98922322416E8D00D824B0 /* BeaconTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTableViewController.swift; sourceTree = "<group>"; };
 		CA98922422416E8D00D824B0 /* BeaconTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconTracker.swift; sourceTree = "<group>"; };
 		CAA44A1D2243FD150050D619 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		CAA44A20224400F00050D619 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		CAA44A22224400F70050D619 /* Reading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reading.swift; sourceTree = "<group>"; };
+		CAA44A23224400F80050D619 /* DeviceEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceEvent.swift; sourceTree = "<group>"; };
+		CAA44A24224400F80050D619 /* Gps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gps.swift; sourceTree = "<group>"; };
+		CAA44A25224400F80050D619 /* Metrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
+		CAA44A2B224416D30050D619 /* ReadingsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadingsModel.xcdatamodel; sourceTree = "<group>"; };
 		D575E0CEE97C2E0D19EF2806 /* Pods-Rovi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rovi.debug.xcconfig"; path = "Target Support Files/Pods-Rovi/Pods-Rovi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +139,7 @@
 		A4F200CA2241552300CC55AE /* Rovi */ = {
 			isa = PBXGroup;
 			children = (
+				CAA44A1F224400A60050D619 /* Models */,
 				CAB10C22224247D8004C91B2 /* UI */,
 				CAB10C212242476D004C91B2 /* Core */,
 				A4F200CB2241552300CC55AE /* AppDelegate.swift */,
@@ -136,6 +149,7 @@
 				A4F200D42241552600CC55AE /* LaunchScreen.storyboard */,
 				A4F200D72241552600CC55AE /* Info.plist */,
 				CAA44A1D2243FD150050D619 /* Utils.swift */,
+				CAA44A2A224416D30050D619 /* ReadingsModel.xcdatamodeld */,
 			);
 			path = Rovi;
 			sourceTree = "<group>";
@@ -158,9 +172,21 @@
 			path = RoviUITests;
 			sourceTree = "<group>";
 		};
+		CAA44A1F224400A60050D619 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAA44A23224400F80050D619 /* DeviceEvent.swift */,
+				CAA44A24224400F80050D619 /* Gps.swift */,
+				CAA44A25224400F80050D619 /* Metrics.swift */,
+				CAA44A22224400F70050D619 /* Reading.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CAB10C212242476D004C91B2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CAA44A20224400F00050D619 /* DataController.swift */,
 				CA98922422416E8D00D824B0 /* BeaconTracker.swift */,
 			);
 			path = Core;
@@ -368,9 +394,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA44A1E2243FD150050D619 /* Utils.swift in Sources */,
+				CAA44A28224400F80050D619 /* Gps.swift in Sources */,
+				CAA44A26224400F80050D619 /* Reading.swift in Sources */,
+				CAA44A21224400F00050D619 /* DataController.swift in Sources */,
 				A4F200CE2241552300CC55AE /* ViewController.swift in Sources */,
+				CAA44A2E224416D30050D619 /* ReadingsModel.xcdatamodeld in Sources */,
 				A4F200CC2241552300CC55AE /* AppDelegate.swift in Sources */,
 				CA98922622416E8D00D824B0 /* BeaconTracker.swift in Sources */,
+				CAA44A29224400F80050D619 /* Metrics.swift in Sources */,
+				CAA44A27224400F80050D619 /* DeviceEvent.swift in Sources */,
 				CA98922522416E8D00D824B0 /* BeaconTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,7 +582,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = D4J7AW2S69;
 				INFOPLIST_FILE = Rovi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -571,7 +603,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Rovi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -702,6 +734,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CAA44A2A224416D30050D619 /* ReadingsModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CAA44A2B224416D30050D619 /* ReadingsModel.xcdatamodel */,
+			);
+			currentVersion = CAA44A2B224416D30050D619 /* ReadingsModel.xcdatamodel */;
+			path = ReadingsModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A4F200C02241552300CC55AE /* Project object */;
 }

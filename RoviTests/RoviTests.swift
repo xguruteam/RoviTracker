@@ -3,7 +3,7 @@
 //  RoviTests
 //
 //  Created by Luccas Beck on 3/19/19.
-//  Copyright © 2019 Luccas Beck. All rights reserved.
+//  Copyright © 2019 RoviTracker. All rights reserved.
 //
 
 import XCTest

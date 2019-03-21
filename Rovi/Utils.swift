@@ -2,8 +2,8 @@
 //  Utils.swift
 //  Rovi
 //
-//  Created by Guru on 3/21/19.
-//  Copyright © 2019 Luccas Beck. All rights reserved.
+//  Created by Luccas Beck on 3/21/19.
+//  Copyright © 2019 RoviTracker. All rights reserved.
 //
 
 import Foundation

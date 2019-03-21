@@ -3,7 +3,7 @@
 //  CoreiBeacon
 //
 //  Created by Luccas Beck on 8/2/18.
-//  Copyright © 2018 Luccas Beck. All rights reserved.
+//  Copyright © 2019 RoviTracker. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import CoreLocation
 class BeaconTableViewController: UITableViewController, BeaconTrackerDelegate {
     
     var beacons: [CLBeacon] = []
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
