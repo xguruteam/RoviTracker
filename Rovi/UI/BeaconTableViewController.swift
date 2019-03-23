@@ -79,7 +79,7 @@ class BeaconTableViewController: UITableViewController, BeaconTrackerDelegate {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
         }
         
-        cell!.textLabel?.text = String(format:"%02X", beacon.major.intValue)
+        cell!.textLabel?.text = "\(beacon.major.intValue)-\(beacon.minor.intValue)  " + String(format:"(%02X-%02X)", beacon.major.intValue, beacon.minor.intValue)
         cell!.detailTextLabel?.text = "\(Utils.meter(fromRSSI: Double(beacon.rssi)))m away | " + beacon.proximityUUID.uuidString
 //        cell!.imageView?.image = UIImage(named: "AppIcon")
 
