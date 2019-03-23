@@ -9,10 +9,12 @@
 import Foundation
 
 struct Reading: Codable {
+    var deviceId: String
     var metrics: Metrics
     var timestamp: Date
     
-    init(metrics: Metrics, timestamp: Date) {
+    init(deviceId: String, metrics: Metrics, timestamp: Date) {
+        self.deviceId = deviceId
         self.metrics = metrics
         self.timestamp = timestamp
     }
@@ -29,6 +31,7 @@ extension Reading {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(deviceId, forKey: .deviceId)
         try container.encode(metrics, forKey: .metrics)
         let formattedTs = Formatter.iso8601.string(from: self.timestamp as Date)
         try container.encode(formattedTs, forKey: .timestamp)

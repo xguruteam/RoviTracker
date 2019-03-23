@@ -76,6 +76,7 @@ struct DeviceReading: Codable {
 }
 
 struct DeviceEvent: Codable {
+    let deviceId: String
     let timestamp: Date
     var sensors: [String: DeviceReading]
     let meta: [String: String] = [:]
@@ -84,6 +85,7 @@ struct DeviceEvent: Codable {
     let type: String = "status"
     
     init(reading: Reading) {
+        self.deviceId = reading.deviceId
         self.timestamp = reading.timestamp
 
         self.sensors = [
@@ -118,12 +120,21 @@ struct DeviceEvent: Codable {
         if let altitude = reading.metrics.altitude {
             self.sensors["altitude"] = DeviceReading(Value.int(altitude), reading.timestamp)
         }
+        
+        if let temperature = reading.metrics.temperature {
+            self.sensors["temperature"] = DeviceReading(Value.int(temperature), reading.timestamp)
+        }
+        
+        if let signal_strength = reading.metrics.signal_strength {
+            self.sensors["signal-strength"] = DeviceReading(Value.int(signal_strength), reading.timestamp)
+        }
     }
 }
 
 extension DeviceEvent {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(deviceId, forKey: .deviceId)
         try container.encode(sensors, forKey: .sensors)
         let formattedTs = Formatter.iso8601.string(from: self.timestamp as Date)
         try container.encode(formattedTs, forKey: .timestamp)

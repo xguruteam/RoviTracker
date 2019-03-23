@@ -33,11 +33,18 @@ class Log {
 let ESTIMOTE_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D"
 let I6_UUID = "E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"
 
+let DEVICE_ID = "NX993NSDF8"
+
 //MARK: CLBeacon Extension
 extension CLBeacon {
     var keyString: String {
         return "beaconkey_\(self.major.intValue)-\(self.minor.intValue)"
     }
+    
+    var idString: String {
+        return "\(self.major.intValue)-\(self.minor.intValue)"
+    }
+    
     func isEqualToCLBeacon(_ beacon: CLBeacon?) -> Bool {
         guard let to = beacon else {
             return false
@@ -218,40 +225,27 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         
         self.detectedBeacons = []
         
-//        let beaconReadingsList = rssiSorted.map(beaconToReading)
-//        beaconReadingsList.forEach(dataController.addReading)
-//
-//        handleUploadReadings()
+        let beaconReadingsList = rssiSorted.map(beaconToReading)
+        beaconReadingsList.forEach(dataController.addReading)
+
+        handleUploadReadings()
     }
     
     private func beaconToReading(beacon: CLBeacon) -> Reading {
-        
-        guard let location = self.locationManager?.location else {
-            return Reading(
-                metrics: Metrics(),
-                timestamp: Date()
-            )
-        }
-        
-        let gps = GpsCoord(
-            lat: location.coordinate.latitude,
-            lng: location.coordinate.longitude,
-            accuracy: location.horizontalAccuracy
-        )
-        let speed = Int(location.speed * 100) // meters per sec to cm per sec
-        let altitude = Int(location.altitude * 100) // converts Double in meters to Int in cm
-        let heading = Int(location.course)
+
+        let deviceId = beacon.idString
+        let temperature = 0
+        let signal_strength = Int(Utils.meter(fromRSSI: Double(beacon.rssi)))
         
         let metrics = Metrics(
-            gps: gps,
-            heading: heading,
-            speed: speed,
-            altitude: altitude
+            temperature: temperature,
+            signal_strength: signal_strength
         )
         
         return Reading(
+            deviceId: deviceId,
             metrics: metrics,
-            timestamp: location.timestamp
+            timestamp: Date()
         )
     }
     
@@ -271,11 +265,11 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             let tempDir = FileManager.default.temporaryDirectory
             let localURL = tempDir.appendingPathComponent("throwaway")
             try? uploadData.write(to: localURL)
-            
+
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
+
             let task = backgroundSession.uploadTask(with: request, fromFile: localURL)
             task.resume()
         }
@@ -299,13 +293,13 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         if (shouldSend) {
             NSLog("uploading: \(fetchedReadings.count)")
             // finds token saved to local storage
-            let defaults = UserDefaults.standard
-            if let token = (defaults.object(forKey: "credentials") as! Dictionary<String, String>?)?["token"] {
-//                self.sendReadings(token: token, readings: fetchedReadings)
+//            let defaults = UserDefaults.standard
+//            if let token = (defaults.object(forKey: "credentials") as! Dictionary<String, String>?)?["token"] {
+                self.sendReadings(token: "token", readings: fetchedReadings)
                 dataController.clearData()
-            } else {
-                NSLog("token not found")
-            }
+//            } else {
+//                NSLog("token not found")
+//            }
         }
         
         handleUpdateUIReadings(fetchedReadings)
@@ -326,6 +320,7 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             batteryLevel: batteryPercent
         )
         let reading = Reading(
+            deviceId: DEVICE_ID,
             metrics: metrics,
             timestamp: Date()
         )
@@ -341,6 +336,7 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             charging: charging
         )
         let reading = Reading(
+            deviceId: DEVICE_ID,
             metrics: metrics,
             timestamp: Date()
         )
@@ -381,6 +377,7 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         )
         
         return Reading(
+            deviceId: DEVICE_ID,
             metrics: metrics,
             timestamp: location.timestamp
         )
@@ -464,6 +461,7 @@ class BeaconTracker: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
                 heading: Int(newHeading.trueHeading)
             )
             let reading = Reading(
+                deviceId: DEVICE_ID,
                 metrics: metrics,
                 timestamp: newHeading.timestamp
             )

@@ -31,6 +31,8 @@ class DataController {
         let entity = NSEntityDescription.entity(forEntityName: "Readings", in: managedContext)!
         let readings = NSManagedObject(entity: entity, insertInto: managedContext)
         
+        readings.setValue(reading.deviceId, forKey: "deviceId")
+        
         readings.setValue(reading.timestamp, forKey: "timestamp")
 
         do {
@@ -61,11 +63,11 @@ class DataController {
     }
     
     func toReading(_ reading: ReadingManagedObject) -> Reading? {
-        if let metricsJson = reading.value(forKey: "metrics"), let timestamp = reading.value(forKey: "timestamp") {
+        if let metricsJson = reading.value(forKey: "metrics"), let timestamp = reading.value(forKey: "timestamp"), let deviceId = reading.value(forKey: "deviceId") {
             let metricsJsonObj = (metricsJson as! String).data(using: .utf8)
             let metrics = try? JSONDecoder().decode(Metrics.self, from: metricsJsonObj!)
             
-            return Reading(metrics: metrics!, timestamp: timestamp as! Date)
+            return Reading(deviceId: deviceId as! String, metrics: metrics!, timestamp: timestamp as! Date)
         }
         return nil
     }
